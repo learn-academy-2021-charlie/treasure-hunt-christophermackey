@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import './App.css'
+import Square from './components/Square'
+
 
 class App extends Component{
   constructor(props){
@@ -13,6 +15,11 @@ class App extends Component{
     return(
       <>
         <h1>Treasure Hunt Game</h1>
+        <div id="gameboard">
+        {this.state.board.map((value, index) => {
+          return <Square value={value} key={index}/>
+        })}
+        </div>
       </>
     )
   }
