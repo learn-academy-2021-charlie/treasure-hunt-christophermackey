@@ -1,37 +1,40 @@
 import React, { Component } from 'react'
-import './App.css'
 import Square from './components/Square'
+import './App.css'
 
-
-class App extends Component {
-  constructor(props) {
+class App extends Component{
+  constructor(props){
     super(props)
     this.state = {
       board: ["?", "?", "?", "?", "?", "?", "?", "?", "?"],
-      treasureLocation: null
+      treasureLocation: null,
+      bombLocation: null
     }
   }
-  componentDidMount() {
+
+  componentDidMount(){
     let treasure = Math.floor(Math.random() * this.state.board.length)
-    this.setState({treasureLocation: treasure})
+    let bomb = Math.floor(Math.random() * this.state.board.length)
+    this.setState({ treasureLocation: treasure, bombLocation: bomb })
   }
 
   handleGamePlay = (index) => {
-    const { board, treasureLocation, bombLocation, gameOver } = this.state
-    if(index === treasureLocation && gameOver === false){
+    const {board} = this.state
+    if(index === this.state.treasureLocation){
       board[index] = "💎"
-      this.setState({ board: board, gameOver: true })
-    } else if(index === bombLocation && gameOver === false){
+      this.setState({board: board})
+    } else if(index === this.state.bombLocation){
       board[index] = "💣"
-      this.setState({ board: board, gameOver: true })
-    } else if(gameOver === false) {
+      this.setState({board: board})
+    } else {
       board[index] = "🌴"
-      this.setState({ board: board })
+      this.setState({board: board})
     }
   }
 
-  render() {
-    return (
+  render(){
+    console.log(this.state.treasureLocation)
+    return(
       <>
         <h1>Treasure Hunt Game</h1>
         <div id="gameboard">
@@ -40,8 +43,7 @@ class App extends Component {
               <Square
                 value={value}
                 key={index}
-                index={index}
-                handleGamePlay={this.handleGamePlay}
+                index={index} handleGamePlay={this.handleGamePlay}
               />
             )
           })}
